@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Trophy} from 'lucide-react';
 
 const Leaderboard = () => {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";

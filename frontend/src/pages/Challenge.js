@@ -33,12 +33,11 @@ const AcceptChallenge = () => {
   };
 
   const acceptChallenge = async () => {
-    try {
-      const response = await axios.post(`${API_URL}/challenge/${inviteCode}/accept`, {username});
+      const expiryDate = new Date();
+      expiryDate.setMinutes(expiryDate.getMinutes() + 10);
+      localStorage.setItem("inviteCode", inviteCode);
+      localStorage.setItem("inviteExpiry", expiryDate.getTime());
       navigate('/');
-    } catch (error) {
-      console.error("Error in accepting challenge", error);
-    }
   };
 
   return (

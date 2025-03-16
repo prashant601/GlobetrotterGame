@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function HomePage() {
   
@@ -31,7 +32,7 @@ export default function HomePage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (username.trim()) {
       const expiryDate = new Date();
@@ -39,11 +40,22 @@ export default function HomePage() {
       localStorage.setItem("username", username);
       window.dispatchEvent(new Event("usernameUpdated"));
       localStorage.setItem("usernameExpiry", expiryDate.getTime());
-      registerUser(username);
+      await registerUser(username);
       setSubmitted(true);
+
+      // if user got invited.. update in challenge accept api
+      const inviteCode = localStorage.getItem("inviteCode");
+      const inviteExpiry = localStorage.getItem("inviteExpiry");
+      const x = new Date().getTime() < inviteExpiry;
+      if(inviteExpiry && new Date().getTime() < inviteExpiry){
+        const response = await axios.post(`${API_URL}/challenge/${inviteCode}/accept`, {username});
+        if(response.data.success){
+          localStorage.removeItem("inviteCode");
+          localStorage.removeItem("inviteExpiry");
+        }
+      }
     }
   };
-
   useEffect(() => {
     const expiry = localStorage.getItem("usernameExpiry");
     if (expiry && new Date().getTime() > expiry) {
