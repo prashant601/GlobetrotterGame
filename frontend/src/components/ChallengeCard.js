@@ -55,7 +55,7 @@ fetch(`${API_URL}/destinations/random`)
         }, 500);
       };
 
-    const challengeLink = `https://globetrottergame.onrender.com//challenge/${inviteCode}`;
+    const challengeLink = `https://globetrottergame.onrender.com/challenge/${inviteCode}`;
     const whatsappShareMessage = `🔥 Challenge Accepted? 🌎✈️\nHey! I just played *Globetrotter Quiz* and put my travel knowledge to the test! 🗺️ \n🏆 *Explorer:* ${inviteesDetails.creatorName}\n🎯 *Score:* ✅ ${inviteesDetails.correctAnswers} | ❌ ${inviteesDetails.incorrectAnswers}\n📊 *Success Rate:* ${inviteesDetails.creatorScore}% \n🌍 *Can you beat my score?*  \n🚀 Take the challenge here: ${challengeLink} \nTest your travel IQ and let's see who’s the real globetrotter! 🌟`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappShareMessage)}`;
 
