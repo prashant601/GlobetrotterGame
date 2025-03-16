@@ -7,6 +7,7 @@ import { Target } from "lucide-react";
 const AcceptChallenge = () => {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
   const { inviteCode } = useParams();
+  const username = localStorage.getItem("username"); // Fetch username from local storage
   const navigate = useNavigate();
   const [inviteesDetails, setInviteesDetails] = useState({
     correctAnswers: 0,
@@ -28,6 +29,15 @@ const AcceptChallenge = () => {
       setInviteesDetails(response.data.challenge);
     } catch (error) {
       console.error("Error fetching challenge details:", error);
+    }
+  };
+
+  const acceptChallenge = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/challenge/${inviteCode}/accept`, {username});
+      navigate('/');
+    } catch (error) {
+      console.error("Error in accepting challenge", error);
     }
   };
 
@@ -74,7 +84,7 @@ const AcceptChallenge = () => {
 
           <div className="flex justify-center gap-4 mt-4 my-4">
             <button
-              onClick={() => navigate("/")}
+              onClick={acceptChallenge}
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
             >
               <Target size={18} /> Accept Challenge
