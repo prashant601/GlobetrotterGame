@@ -52,7 +52,7 @@ fetch(`${API_URL}/destinations/random`)
           else{
             console.log("Error generating image");
           }
-        }, 500);
+        }, 1500);
       };
 
     const challengeLink = `https://globetrottergame.onrender.com/challenge/${inviteCode}`;
